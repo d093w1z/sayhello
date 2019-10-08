@@ -5,9 +5,14 @@
 # Using Recorderjs by: https://github.com/mattdiamond/Recorderjs
 trap 'printf "\n";stop' 2
 
+null="> /dev/null 2>&1"
+if [[ $1 == "-v" ]];then
+null=""
+fi
+
 banner() {
 
- 
+
 printf "\e[1;92m                                          __ \e[0m\n"
 printf "\e[1;93m  ____              _   _      _ _ \e[0m\e[1;92m      /__\  \e[0m\n"
 printf "\e[1;93m / ___|  __ _ _   _| | | | ___| | | ___ \e[0m\e[1;92m \__/  \e[0m\n"
@@ -143,10 +148,10 @@ printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
 arch=$(uname -a | grep -o 'arm' | head -n1)
 arch2=$(uname -a | grep -o 'Android' | head -n1)
 if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] ; then
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip $null
 
 if [[ -e ngrok-stable-linux-arm.zip ]]; then
-unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
+unzip ngrok-stable-linux-arm.zip $null
 chmod +x ngrok
 rm -rf ngrok-stable-linux-arm.zip
 else
@@ -155,9 +160,9 @@ exit 1
 fi
 
 else
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip > /dev/null 2>&1 
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip $null
 if [[ -e ngrok-stable-linux-386.zip ]]; then
-unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
+unzip ngrok-stable-linux-386.zip $null
 chmod +x ngrok
 rm -rf ngrok-stable-linux-386.zip
 else
