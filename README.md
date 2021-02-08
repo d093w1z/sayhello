@@ -1,6 +1,6 @@
 # SAyHello v1.0
 ## Author: github.com/thelinuxchoice/[DELETED]
-## Maintained by: @d093w1z
+## Maintained by: [@d093w1z](https://github.com/d093w1z)
 ## Twitter: [@linux_choice](https://twitter.com/linux_choice "linux_choice twitter account") [@d093w1z](https://twitter.com/d093w1z "d093w1z twitter account")
 
 Capturing audio (.wav) from target using a link
