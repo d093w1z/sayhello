@@ -1,5 +1,5 @@
 # SAyHello v1.0
-## Author: github.com/thelinuxchoice/[DELETED]
+## Author: github.com/thelinuxchoice [DELETED]
 ## Maintained by: [@d093w1z](https://github.com/d093w1z)
 ## Twitter: [@linux_choice](https://twitter.com/linux_choice "linux_choice twitter account") [@d093w1z](https://twitter.com/d093w1z "d093w1z twitter account")
 
@@ -23,7 +23,7 @@ Port Forwarding using Serveo or Ngrok
 
 ## Legal disclaimer:
 
-####Usage of SayHello for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume NO LIABILITY and are NOT RESPONSIBLE for any misuse or damage caused by this program.
+#### Usage of SayHello for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume NO LIABILITY and are NOT RESPONSIBLE for any misuse or damage caused by this program.
 
 ### Usage:
 ```
