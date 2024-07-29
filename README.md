@@ -27,7 +27,7 @@ Port Forwarding using Serveo or Ngrok
 
 ### Usage:
 ```
-git clone https://github.com/thelinuxchoice/sayhello
+git clone https://github.com/d093w1z/sayhello
 cd sayhello
 bash sayhello.sh
 ```
